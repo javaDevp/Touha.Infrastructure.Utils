@@ -1,0 +1,2 @@
+﻿1.Expression<Delegate>继承自LambdaExpression
+2.LambdaExpression继承自Expression
