@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compare\ComparisonUtil.cs" />
+    <Compile Include="Compare\EqualityUtil.cs" />
     <Compile Include="DataTables\DataTableHelper.cs" />
     <Compile Include="DateTimes\DateTimeHelper.cs" />
     <Compile Include="Files\FileDialogHelper.cs" />
@@ -50,6 +52,7 @@
     <Compile Include="Lambda\LambdaUtil.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="String\StringExt.cs" />
     <Compile Include="Valid\IdcardValid.cs" />
     <Compile Include="Valid\ValidUtil.cs" />
     <Compile Include="Web\RequestUtil.cs" />
