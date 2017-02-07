@@ -162,6 +162,31 @@ namespace Touha.Infrastructure.Utils.DateTimes
             return CultureInfo.CurrentCulture.Calendar.GetDayOfMonth(dtime);
         }
 
+        #region 常用语微信等接口中的日期转换
+        /// <summary>
+        /// datetime转换为unixtime
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public static int ConvertDateTimeInt(DateTime time)
+        {
+            DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            return (int)(time - startTime).TotalSeconds;
+        }
+
+        /// <summary>
+        /// unix时间转换为datetime
+        /// </summary>
+        /// <param name="timeStamp"></param>
+        /// <returns></returns>
+        public static DateTime UnixTimeToTime(string timeStamp)
+        {
+            DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            long lTime = long.Parse(timeStamp + "0000000");
+            TimeSpan toNow = new TimeSpan(lTime);
+            return dtStart.Add(toNow);
+        }
+        #endregion
         #endregion
     }
 }
