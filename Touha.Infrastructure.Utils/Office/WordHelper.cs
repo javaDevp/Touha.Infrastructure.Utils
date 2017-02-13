@@ -132,6 +132,78 @@ namespace Touha.Infrastructure.Utils.Office
                 return dt;
             }
         }
+
+        /// <summary>
+        /// 将指定表格数据转XML
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="columnName"></param>
+        /// <param name="rootName"></param>
+        /// <returns></returns>
+        public string GetTableXml(int index, string columnName, string rootName)
+        {
+            string xml = "";
+            using (Stream stream = File.Open(_filePath, FileMode.Open))
+            {
+                XWPFDocument doc = new XWPFDocument(stream);
+                if (doc.Tables.Count > index)
+                {
+                    xml += xml += string.Format("<{0}>", rootName);
+                    XWPFTable table = doc.Tables[index];
+                    IList<XWPFTableRow> rows = table.Rows;
+                    XWPFTableRow rowHead = rows[0];
+                    //寻找作为Xml节点的列
+                    //var cells = from cell in rowHead.GetTableCells()
+                    //    where cell.GetText().Equals(column, StringComparison.OrdinalIgnoreCase)
+                    //    select cell;
+                    bool isOutter = false;
+                    string preOuterColumn = "";
+                    int columnIndex = -1;
+                    for (int i = 0; i < rowHead.GetTableCells().Count; i++)
+                    {
+                        var cell = rowHead.GetCell(i);
+                        if (cell.GetText().Equals(columnName))
+                        {
+                            columnIndex = i;
+                            break;
+                        }
+                    }
+                    if (columnIndex > -1)
+                    {
+                        //填充数据
+                        for (int i = 0; i < rows.Count - 1; i++)
+                        {
+                            XWPFTableRow rowData = rows[i + 1];
+                            if (rowData.GetTableCells().Count > 1)
+                            {
+                                //叶子节点
+                                xml += string.Format("<{0}></{0}>", rowData.GetCell(columnIndex).GetText());
+                            }
+                            if (rowData.GetTableCells().Count == 1)
+                            {
+                                //非叶子节点
+                                if (isOutter)
+                                {
+                                    isOutter = false;
+                                    xml += string.Format("</{0}>", preOuterColumn);
+                                }
+                                preOuterColumn = rowData.GetCell(0).GetText();
+                                xml += string.Format("<{0}>", preOuterColumn);
+                                isOutter = true;
+                            }
+                        }
+                        if (isOutter)
+                        {
+                            isOutter = false;
+                            xml += string.Format("</{0}>", preOuterColumn);
+                        }
+                        xml += string.Format("</{0}>", rootName);
+                    }
+
+                }
+            }
+            return xml;
+        }
         #endregion
     }
 }
