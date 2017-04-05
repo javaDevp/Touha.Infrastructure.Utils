@@ -63,6 +63,7 @@
     <Compile Include="DateTimes\DateTimeHelper.cs" />
     <Compile Include="Files\FileDialogHelper.cs" />
     <Compile Include="Files\FileUtil.cs" />
+    <Compile Include="Graphics\GraphicUtil.cs" />
     <Compile Include="Lambda\LambdaUtil.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Office\ExcelHelper.cs" />
